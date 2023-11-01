@@ -7,6 +7,48 @@ void main() {
   runApp(const Venus());
 }
 
+ThemeData createTheme(Brightness brightness) {
+  final isDark = brightness == Brightness.dark;
+  final color = isDark ? Colors.blue[400]! : Colors.blueAccent[700]!;
+  final colorScheme = ColorScheme.fromSeed(
+    seedColor: color,
+    brightness: brightness,
+  ).copyWith(
+    primary: color,
+  );
+
+  final surfaceTintColor = isDark ? null : Colors.transparent;
+  return ThemeData(
+    useMaterial3: true,
+    brightness: brightness,
+    colorScheme: colorScheme,
+    cardTheme: CardTheme(
+      elevation: 4,
+      surfaceTintColor: surfaceTintColor,
+    ),
+    popupMenuTheme: PopupMenuThemeData(
+      elevation: 4,
+      surfaceTintColor: surfaceTintColor,
+      position: PopupMenuPosition.under,
+    ),
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: Colors.lightBlue,
+    ),
+    searchBarTheme: SearchBarThemeData(
+      elevation: const MaterialStatePropertyAll(0),
+      shape: MaterialStatePropertyAll(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(
+            color: colorScheme.outline,
+          ),
+        ),
+      ),
+    ),
+    iconTheme: const IconThemeData(size: 16),
+  );
+}
+
 class Venus extends StatefulHookWidget {
   const Venus({Key? key}) : super(key: key);
 
@@ -15,15 +57,20 @@ class Venus extends StatefulHookWidget {
 }
 
 class VenusState extends State<Venus> {
+  var themeMode = ThemeMode.system;
+
+  void toggleTheme() {
+    setState(() {
+      themeMode = themeMode == ThemeMode.light || themeMode == ThemeMode.system
+          ? ThemeMode.dark
+          : ThemeMode.light;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final selectedIndex = useState(0);
-    final colorScheme = ColorScheme.fromSeed(
-      seedColor: Colors.blueAccent[700]!,
-      brightness: Brightness.light,
-    ).copyWith(
-      primary: Colors.blueAccent[700]!,
-    );
+
     return MaterialApp(
       home: Sidebar(
         selectedIndex: selectedIndex.value,
@@ -32,34 +79,9 @@ class VenusState extends State<Venus> {
         },
         child: const HomeScreen(),
       ),
-      theme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.light,
-        colorScheme: colorScheme,
-        cardTheme: const CardTheme(
-          elevation: 4,
-          surfaceTintColor: Colors.transparent,
-        ),
-        popupMenuTheme: const PopupMenuThemeData(
-          elevation: 4,
-          surfaceTintColor: Colors.transparent,
-          position: PopupMenuPosition.under,
-        ),
-        progressIndicatorTheme: const ProgressIndicatorThemeData(
-          color: Colors.lightBlue,
-        ),
-        searchBarTheme: SearchBarThemeData(
-          elevation: const MaterialStatePropertyAll(0),
-          shape: MaterialStatePropertyAll(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-              side: BorderSide(
-                color: colorScheme.outline,
-              ),
-            ),
-          ),
-        ),
-      ),
+      theme: createTheme(Brightness.light),
+      darkTheme: createTheme(Brightness.dark),
+      themeMode: themeMode,
     );
   }
 }

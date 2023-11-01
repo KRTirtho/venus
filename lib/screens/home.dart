@@ -42,6 +42,7 @@ class HomeScreen extends HookWidget {
             behavior:
                 ScrollConfiguration.of(context).copyWith(scrollbars: false),
             child: SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
               controller: controller,
               child: ConstrainedBox(
                 constraints: const BoxConstraints(

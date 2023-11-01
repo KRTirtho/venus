@@ -64,7 +64,15 @@ class WelcomeCardModule extends HookWidget {
                 for (final row in recentHistoryData)
                   DataRow(
                     cells: [
-                      DataCell(Text(row.status)),
+                      DataCell(
+                        Text(
+                          row.status,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ),
                       DataCell(
                         Text(
                           row.author,

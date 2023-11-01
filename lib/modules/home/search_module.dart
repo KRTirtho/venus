@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:venus/main.dart';
 
 const moveMoneyItems = [
   (icon: Icon(Ionicons.paper_plane_outline), title: "Pay Someone"),
@@ -18,10 +19,14 @@ class SearchModule extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    var kbdDecoration = BoxDecoration(
+    final ThemeData(:colorScheme) = Theme.of(context);
+    final kbdDecoration = BoxDecoration(
       borderRadius: BorderRadius.circular(4),
-      color: Colors.grey[300],
+      color: colorScheme.surfaceVariant,
     );
+
+    final venusAppState = context.findAncestorStateOfType<VenusState>();
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -72,12 +77,23 @@ class SearchModule extends HookWidget {
               },
             ),
             const Gap(15),
-            IconButton.filledTonal(
-              icon: Icon(
-                Ionicons.flash,
-                color: Theme.of(context).colorScheme.primary,
+            DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                boxShadow: kElevationToShadow[2]!,
               ),
-              onPressed: () {},
+              child: IconButton.filled(
+                icon: Icon(
+                  Ionicons.flash,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                style: IconButton.styleFrom(
+                  backgroundColor: colorScheme.background,
+                ),
+                onPressed: () {
+                  venusAppState?.toggleTheme();
+                },
+              ),
             ),
           ],
         ),
