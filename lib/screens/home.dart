@@ -56,7 +56,7 @@ class HomeScreen extends HookWidget {
                       children: [
                         WelcomeCardModule(),
                         Gap(20),
-                        BalanceCardModule(),
+                        Expanded(child: BalanceCardModule()),
                       ],
                     ),
                     const Gap(20),

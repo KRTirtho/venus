@@ -30,78 +30,73 @@ class BalanceCardModule extends HookWidget {
         AxisTitles(sideTitles: SideTitles(showTitles: false));
     final ThemeData(:textTheme, :colorScheme) = Theme.of(context);
 
-    return ConstrainedBox(
-      constraints: const BoxConstraints(
-        maxWidth: 700,
-      ),
+    return SizedBox(
+      height: 430,
       child: Card(
         child: Stack(
           children: [
-            AspectRatio(
-              aspectRatio: 18 / 10.7,
-              child: LineChart(
-                LineChartData(
-                  maxY: 1000000 * 2,
-                  minY: 0,
-                  gridData: const FlGridData(show: false),
-                  borderData: FlBorderData(show: false),
-                  titlesData: FlTitlesData(
-                    topTitles: hiddenAxisTitle,
-                    rightTitles: hiddenAxisTitle,
-                    leftTitles: hiddenAxisTitle,
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        getTitlesWidget: (value, meta) {
-                          if (value == meta.max || value == meta.min) {
-                            return const SizedBox();
-                          }
-                          return Text('Oct ${meta.formattedValue}');
-                        },
-                        interval: 5,
-                        showTitles: true,
-                        reservedSize: 40,
-                      ),
+            LineChart(
+              LineChartData(
+                maxY: 1000000 * 2,
+                minY: 0,
+                gridData: const FlGridData(show: false),
+                borderData: FlBorderData(show: false),
+                titlesData: FlTitlesData(
+                  topTitles: hiddenAxisTitle,
+                  rightTitles: hiddenAxisTitle,
+                  leftTitles: hiddenAxisTitle,
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      getTitlesWidget: (value, meta) {
+                        if (value == meta.max || value == meta.min) {
+                          return const SizedBox();
+                        }
+                        return Text('Oct ${meta.formattedValue}');
+                      },
+                      interval: 5,
+                      showTitles: true,
+                      reservedSize: 40,
                     ),
                   ),
-                  lineTouchData: LineTouchData(
-                    enabled: true,
-                    touchTooltipData: LineTouchTooltipData(
-                      tooltipBgColor: colorScheme.inverseSurface,
-                      getTooltipItems: (touchedSpots) => touchedSpots
-                          .map(
-                            (LineBarSpot touchedSpot) => LineTooltipItem(
-                              "Oct ${touchedSpot.x.toInt()}\n${formatCurrency.format(touchedSpot.y.toInt())}",
-                              TextStyle(
-                                color: colorScheme.onInverseSurface,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              textAlign: TextAlign.start,
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                  lineBarsData: [
-                    LineChartBarData(
-                      isCurved: true,
-                      spots: randomDataFor1MonthPerDay,
-                      belowBarData: BarAreaData(
-                        show: true,
-                        gradient: LinearGradient(
-                          colors: [
-                            colorScheme.primary.withOpacity(0.5),
-                            colorScheme.primary.withOpacity(0.1),
-                          ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
-                      ),
-                      isStrokeCapRound: true,
-                      color: colorScheme.primary,
-                      dotData: const FlDotData(show: false),
-                    ),
-                  ],
                 ),
+                lineTouchData: LineTouchData(
+                  enabled: true,
+                  touchTooltipData: LineTouchTooltipData(
+                    tooltipBgColor: colorScheme.inverseSurface,
+                    getTooltipItems: (touchedSpots) => touchedSpots
+                        .map(
+                          (LineBarSpot touchedSpot) => LineTooltipItem(
+                            "Oct ${touchedSpot.x.toInt()}\n${formatCurrency.format(touchedSpot.y.toInt())}",
+                            TextStyle(
+                              color: colorScheme.onInverseSurface,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.start,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+                lineBarsData: [
+                  LineChartBarData(
+                    isCurved: true,
+                    spots: randomDataFor1MonthPerDay,
+                    belowBarData: BarAreaData(
+                      show: true,
+                      gradient: LinearGradient(
+                        colors: [
+                          colorScheme.primary.withOpacity(0.5),
+                          colorScheme.primary.withOpacity(0.1),
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                    isStrokeCapRound: true,
+                    color: colorScheme.primary,
+                    dotData: const FlDotData(show: false),
+                  ),
+                ],
               ),
             ),
             Padding(

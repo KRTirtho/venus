@@ -31,7 +31,8 @@ class SearchModule extends HookWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         ConstrainedBox(
-          constraints: const BoxConstraints(maxHeight: 40),
+          constraints:
+              const BoxConstraints(maxHeight: 40, maxWidth: 600, minWidth: 400),
           child: SearchBar(
             hintText: "Search or jump to...",
             leading: Icon(
