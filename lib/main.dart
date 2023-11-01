@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:venus/components/sidebar/sidebar.dart';
 import 'package:venus/screens/home.dart';
 
@@ -18,7 +19,7 @@ ThemeData createTheme(Brightness brightness) {
   );
 
   final surfaceTintColor = isDark ? null : Colors.transparent;
-  return ThemeData(
+  final theme = ThemeData(
     useMaterial3: true,
     brightness: brightness,
     colorScheme: colorScheme,
@@ -41,12 +42,16 @@ ThemeData createTheme(Brightness brightness) {
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
           side: BorderSide(
-            color: colorScheme.outline,
+            color: colorScheme.outlineVariant,
           ),
         ),
       ),
     ),
     iconTheme: const IconThemeData(size: 16),
+  );
+
+  return theme.copyWith(
+    textTheme: GoogleFonts.poppinsTextTheme(theme.textTheme),
   );
 }
 

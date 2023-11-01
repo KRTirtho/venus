@@ -43,6 +43,7 @@ dependencies:
   intl: ^0.18.1
   random_name_generator: ^1.2.0
   collection: ^1.17.2
+  google_fonts: ^6.1.0
 
 dev_dependencies:
   flutter_test:

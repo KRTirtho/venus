@@ -36,13 +36,13 @@ class WelcomeCardModule extends HookWidget {
               "VENUS DEMO, INC.",
               style: textTheme.labelLarge?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: Colors.grey[600],
+                color: colorScheme.outline,
               ),
             ),
             const Gap(30),
             Text(
               "Welcome, User",
-              style: textTheme.displaySmall,
+              style: textTheme.headlineMedium,
             ),
             const Gap(20),
             const Text(

@@ -30,22 +30,28 @@ class SearchModule extends HookWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SearchBar(
-          hintText: "Search or jump to...",
-          leading: const Icon(Ionicons.search_outline),
-          trailing: [
-            Container(
-              decoration: kbdDecoration,
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: const Text("Ctrl"),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxHeight: 40),
+          child: SearchBar(
+            hintText: "Search or jump to...",
+            leading: Icon(
+              Ionicons.search_outline,
+              color: colorScheme.onSurface,
             ),
-            const Gap(2),
-            Container(
-              decoration: kbdDecoration,
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: const Text("K"),
-            ),
-          ],
+            trailing: [
+              Container(
+                decoration: kbdDecoration,
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: const Text("Ctrl"),
+              ),
+              const Gap(2),
+              Container(
+                decoration: kbdDecoration,
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: const Text("K"),
+              ),
+            ],
+          ),
         ),
         Row(
           children: [

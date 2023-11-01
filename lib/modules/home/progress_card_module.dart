@@ -34,7 +34,7 @@ class ProgressCardModule extends HookWidget {
                 title.toUpperCase(),
                 style: textTheme.labelLarge?.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: Colors.grey[600],
+                  color: colorScheme.outline,
                 ),
               ),
               const Gap(30),
