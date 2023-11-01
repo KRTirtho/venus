@@ -25,6 +25,7 @@ ThemeData createTheme(Brightness brightness) {
     cardTheme: CardTheme(
       elevation: 4,
       surfaceTintColor: surfaceTintColor,
+      shadowColor: Colors.black38,
     ),
     popupMenuTheme: PopupMenuThemeData(
       elevation: 4,
