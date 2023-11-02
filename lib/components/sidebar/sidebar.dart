@@ -21,18 +21,12 @@ class Sidebar extends HookWidget {
   final void Function(int) onSelectedIndexChanged;
   final Widget child;
 
-  Sidebar({
+  const Sidebar({
     required this.selectedIndex,
     required this.onSelectedIndexChanged,
     required this.child,
     Key? key,
   }) : super(key: key);
-
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  void toggleSidebar() {
-    _scaffoldKey.currentState?.openDrawer();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +127,6 @@ class Sidebar extends HookWidget {
       ),
     );
     return Scaffold(
-      key: _scaffoldKey,
       drawer: isSmallerScreen ? sidebar : null,
       drawerEnableOpenDragGesture: isSmallerScreen,
       body: Row(

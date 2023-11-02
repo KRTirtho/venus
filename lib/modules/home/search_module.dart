@@ -27,7 +27,7 @@ class SearchModule extends HookWidget {
     );
 
     final venusAppState = context.findAncestorStateOfType<VenusState>();
-    final sidebarWidget = context.findAncestorWidgetOfExactType<Sidebar>();
+
     final isSmallerScreen = MediaQuery.of(context).size.width < 600;
 
     return Row(
@@ -37,7 +37,7 @@ class SearchModule extends HookWidget {
           IconButton(
             icon: Icon(Ionicons.menu_outline, color: colorScheme.onSurface),
             onPressed: () {
-              sidebarWidget?.toggleSidebar();
+              Scaffold.of(Scaffold.of(context).context).openDrawer();
             },
           ),
         Flexible(
