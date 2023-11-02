@@ -30,9 +30,9 @@ class BalanceCardModule extends HookWidget {
         AxisTitles(sideTitles: SideTitles(showTitles: false));
     final ThemeData(:textTheme, :colorScheme) = Theme.of(context);
 
-    return SizedBox(
-      height: 430,
-      child: Card(
+    return Card(
+      child: SizedBox(
+        height: 430,
         child: Stack(
           children: [
             LineChart(

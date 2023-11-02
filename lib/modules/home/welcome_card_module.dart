@@ -26,9 +26,8 @@ class WelcomeCardModule extends HookWidget {
     final ThemeData(:textTheme, :colorScheme) = Theme.of(context);
 
     return Card(
-      child: Container(
+      child: Padding(
         padding: const EdgeInsets.all(48),
-        constraints: const BoxConstraints(maxWidth: 350),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
