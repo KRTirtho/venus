@@ -76,10 +76,7 @@ class SearchModule extends HookWidget {
                   ? IgnorePointer(
                       child: IconButton.filled(
                         onPressed: () {},
-                        icon: Icon(
-                          Icons.attach_money_outlined,
-                          color: colorScheme.onSurface,
-                        ),
+                        icon: const Icon(Icons.attach_money_outlined),
                       ),
                     )
                   : null,

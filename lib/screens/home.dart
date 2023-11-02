@@ -50,7 +50,7 @@ class HomeScreen extends HookWidget {
                   ),
                   child: Column(
                     children: [
-                      const SearchModule(),
+                      const SafeArea(child: SearchModule()),
                       const Gap(15),
                       LayoutBuilder(
                         builder: (context, constraints) {
