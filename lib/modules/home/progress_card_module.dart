@@ -64,6 +64,7 @@ class ProgressCardModule extends HookWidget {
                           child: LinearProgressIndicator(
                             value: amount.abs() / 200000,
                             color: randomColors.first,
+                            borderRadius: BorderRadius.circular(20),
                           ),
                         ),
                         const Gap(10),

@@ -101,58 +101,67 @@ class BalanceCardModule extends HookWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              child: LayoutBuilder(builder: (context, constraints) {
+                return SizedBox(
+                  width: constraints.biggest.width,
+                  child: Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    runAlignment: WrapAlignment.spaceBetween,
+                    spacing: 20,
+                    runSpacing: 20,
                     children: [
-                      Text(
-                        "Mercury Balance",
-                        style: textTheme.bodyLarge,
-                      ),
-                      Text(
-                        formatCurrency.format(totalBalance),
-                        style: textTheme.headlineMedium,
-                      ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
+                      Column(
                         mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          RotatedBox(
-                            quarterTurns: differenceOfLast2.isNegative ? 2 : 0,
-                            child: Icon(
-                              Icons.arrow_outward_rounded,
-                              size: 16,
-                              color: differenceOfLast2.isNegative
-                                  ? Colors.red
-                                  : Colors.green,
-                            ),
+                          Text(
+                            "Mercury Balance",
+                            style: textTheme.bodyLarge,
                           ),
                           Text(
-                            formatCurrency.format(differenceOfLast2.abs()),
-                            style: textTheme.bodyLarge,
+                            formatCurrency.format(totalBalance),
+                            style: textTheme.headlineMedium,
                           ),
                         ],
                       ),
-                      Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: TextButton.icon(
-                          icon: const Icon(Ionicons.chevron_down),
-                          label: const Text("Last 30 Days"),
-                          onPressed: () {},
-                        ),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              RotatedBox(
+                                quarterTurns:
+                                    differenceOfLast2.isNegative ? 2 : 0,
+                                child: Icon(
+                                  Icons.arrow_outward_rounded,
+                                  size: 16,
+                                  color: differenceOfLast2.isNegative
+                                      ? Colors.red
+                                      : Colors.green,
+                                ),
+                              ),
+                              Text(
+                                formatCurrency.format(differenceOfLast2.abs()),
+                                style: textTheme.bodyLarge,
+                              ),
+                            ],
+                          ),
+                          Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: TextButton.icon(
+                              icon: const Icon(Ionicons.chevron_down),
+                              label: const Text("Last 30 Days"),
+                              onPressed: () {},
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
+                );
+              }),
             ),
           ],
         ),
