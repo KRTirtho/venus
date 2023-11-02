@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:venus/components/sidebar/sidebar.dart';
 import 'package:venus/main.dart';
 
 const moveMoneyItems = [
@@ -26,10 +27,19 @@ class SearchModule extends HookWidget {
     );
 
     final venusAppState = context.findAncestorStateOfType<VenusState>();
+    final sidebarWidget = context.findAncestorWidgetOfExactType<Sidebar>();
+    final isSmallerScreen = MediaQuery.of(context).size.width < 600;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        if (isSmallerScreen)
+          IconButton(
+            icon: Icon(Ionicons.menu_outline, color: colorScheme.onSurface),
+            onPressed: () {
+              sidebarWidget?.toggleSidebar();
+            },
+          ),
         Flexible(
           child: SizedBox(
             height: 40,
@@ -39,19 +49,21 @@ class SearchModule extends HookWidget {
                 Ionicons.search_outline,
                 color: colorScheme.onSurface,
               ),
-              trailing: [
-                Container(
-                  decoration: kbdDecoration,
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: const Text("Ctrl"),
-                ),
-                const Gap(2),
-                Container(
-                  decoration: kbdDecoration,
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: const Text("K"),
-                ),
-              ],
+              trailing: isSmallerScreen
+                  ? []
+                  : [
+                      Container(
+                        decoration: kbdDecoration,
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: const Text("Ctrl"),
+                      ),
+                      const Gap(2),
+                      Container(
+                        decoration: kbdDecoration,
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: const Text("K"),
+                      ),
+                    ],
             ),
           ),
         ),
@@ -59,19 +71,35 @@ class SearchModule extends HookWidget {
         Row(
           children: [
             PopupMenuButton(
-              child: IgnorePointer(
-                child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: FilledButton.icon(
-                    label: const Text("Move Money"),
-                    icon: const Icon(Ionicons.chevron_down),
-                    style: FilledButton.styleFrom(
-                      minimumSize: const Size(180, 50),
+              tooltip: "Move Money",
+              icon: isSmallerScreen
+                  ? IgnorePointer(
+                      child: IconButton.filled(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.attach_money_outlined,
+                          color: colorScheme.onSurface,
+                        ),
+                      ),
+                    )
+                  : null,
+              child: isSmallerScreen
+                  ? null
+                  : IgnorePointer(
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: FilledButton.icon(
+                          label: const Text("Move Money"),
+                          icon: const Icon(Ionicons.chevron_down),
+                          style: FilledButton.styleFrom(
+                            minimumSize: isSmallerScreen
+                                ? const Size(150, 45)
+                                : const Size(180, 50),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ),
                     ),
-                    onPressed: () {},
-                  ),
-                ),
-              ),
               itemBuilder: (context) {
                 return [
                   for (final item in moveMoneyItems)

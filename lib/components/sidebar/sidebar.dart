@@ -21,12 +21,18 @@ class Sidebar extends HookWidget {
   final void Function(int) onSelectedIndexChanged;
   final Widget child;
 
-  const Sidebar({
+  Sidebar({
     required this.selectedIndex,
     required this.onSelectedIndexChanged,
     required this.child,
     Key? key,
   }) : super(key: key);
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void toggleSidebar() {
+    _scaffoldKey.currentState?.openDrawer();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +42,8 @@ class Sidebar extends HookWidget {
     );
 
     final theme = Theme.of(context);
+
+    final isSmallerScreen = MediaQuery.of(context).size.width < 600;
 
     useEffect(() {
       if (controller.selectedIndex != selectedIndex) {
@@ -51,85 +59,89 @@ class Sidebar extends HookWidget {
       return null;
     }, [controller]);
 
-    return Row(
-      children: [
-        SafeArea(
-          child: SidebarX(
-            controller: controller,
-            items: sidebarTiles.mapIndexed(
-              (index, e) {
-                return SidebarXItem(
-                  iconWidget: Icon(
-                    e.icon,
-                    color: selectedIndex == index
-                        ? theme.colorScheme.primary
-                        : theme.colorScheme.onBackground,
-                    size: 16,
-                  ),
-                  label: e.title,
-                );
-              },
-            ).toList(),
-            showToggleButton: false,
-            headerBuilder: (context, extended) {
-              return Padding(
-                padding: const EdgeInsets.all(24).copyWith(left: 12),
-                child: Row(
-                  children: [
-                    ColorFiltered(
-                      colorFilter: ColorFilter.mode(
-                        theme.colorScheme.primary,
-                        BlendMode.srcIn,
-                      ),
-                      child: Image.asset(
-                        "assets/images/logo.png",
-                        width: 40,
-                        height: 40,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    const Gap(10),
-                    Text(
-                      'VENUS',
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        letterSpacing: 1.5,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            extendedTheme: SidebarXTheme(
-              width: 200,
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              decoration: BoxDecoration(
-                color: Color.lerp(
-                  theme.colorScheme.background,
-                  theme.colorScheme.onBackground,
-                  0.05,
-                ),
-              ),
-              selectedItemDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: theme.colorScheme.surfaceVariant,
-              ),
-              selectedIconTheme: IconThemeData(
-                color: theme.colorScheme.primary,
-              ),
-              selectedTextStyle: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-              itemTextPadding: const EdgeInsets.only(left: 10),
-              selectedItemTextPadding: const EdgeInsets.only(left: 10),
-              hoverTextStyle: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+    final sidebar = SidebarX(
+      controller: controller,
+      items: sidebarTiles.mapIndexed(
+        (index, e) {
+          return SidebarXItem(
+            iconWidget: Icon(
+              e.icon,
+              color: selectedIndex == index
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.onBackground,
+              size: 16,
             ),
+            label: e.title,
+          );
+        },
+      ).toList(),
+      showToggleButton: false,
+      headerBuilder: (context, extended) {
+        return Padding(
+          padding: const EdgeInsets.all(24).copyWith(left: 12),
+          child: Row(
+            children: [
+              ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  theme.colorScheme.primary,
+                  BlendMode.srcIn,
+                ),
+                child: Image.asset(
+                  "assets/images/logo.png",
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              const Gap(10),
+              Text(
+                'VENUS',
+                style: theme.textTheme.titleLarge?.copyWith(
+                  letterSpacing: 1.5,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      extendedTheme: SidebarXTheme(
+        width: 200,
+        padding: const EdgeInsets.symmetric(horizontal: 6),
+        decoration: BoxDecoration(
+          color: Color.lerp(
+            theme.colorScheme.background,
+            theme.colorScheme.onBackground,
+            0.05,
           ),
         ),
-        Expanded(child: child)
-      ],
+        selectedItemDecoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: theme.colorScheme.surfaceVariant,
+        ),
+        selectedIconTheme: IconThemeData(
+          color: theme.colorScheme.primary,
+        ),
+        selectedTextStyle: theme.textTheme.bodyMedium?.copyWith(
+          fontWeight: FontWeight.w600,
+        ),
+        itemTextPadding: const EdgeInsets.only(left: 10),
+        selectedItemTextPadding: const EdgeInsets.only(left: 10),
+        hoverTextStyle: theme.textTheme.bodyMedium?.copyWith(
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+    return Scaffold(
+      key: _scaffoldKey,
+      drawer: isSmallerScreen ? sidebar : null,
+      drawerEnableOpenDragGesture: isSmallerScreen,
+      body: Row(
+        children: [
+          if (!isSmallerScreen) SafeArea(child: sidebar),
+          Expanded(child: child),
+        ],
+      ),
     );
   }
 }
