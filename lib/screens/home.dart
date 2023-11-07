@@ -6,7 +6,6 @@ import 'package:gap/gap.dart';
 import 'package:random_name_generator/random_name_generator.dart';
 import 'package:venus/modules/home/balance_card_module.dart';
 import 'package:venus/modules/home/progress_card_module.dart';
-import 'package:venus/modules/home/search_module.dart';
 import 'package:venus/modules/home/welcome_card_module.dart';
 
 final randomNames = RandomNames(Zone.us);
@@ -29,106 +28,80 @@ class HomeScreen extends HookWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final controller = useScrollController();
+  SliverList build(BuildContext context) {
+    return SliverList(
+      delegate: SliverChildListDelegate([
+        const Gap(15),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final isSmallScreen = constraints.maxWidth < 600;
 
-    return Builder(builder: (context) {
-      return Scaffold(
-        body: Scrollbar(
-          controller: controller,
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            alignment: Alignment.topCenter,
-            child: ScrollConfiguration(
-              behavior:
-                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
-              child: SingleChildScrollView(
-                controller: controller,
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxWidth: 1080,
+            if (isSmallScreen) {
+              return const Column(
+                children: [
+                  WelcomeCardModule(),
+                  Gap(20),
+                  BalanceCardModule(),
+                ],
+              );
+            } else {
+              return const Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: WelcomeCardModule(),
                   ),
-                  child: Column(
-                    children: [
-                      const SafeArea(child: SearchModule()),
-                      const Gap(15),
-                      LayoutBuilder(
-                        builder: (context, constraints) {
-                          final isSmallScreen = constraints.maxWidth < 600;
-
-                          if (isSmallScreen) {
-                            return const Column(
-                              children: [
-                                WelcomeCardModule(),
-                                Gap(20),
-                                BalanceCardModule(),
-                              ],
-                            );
-                          } else {
-                            return const Row(
-                              children: [
-                                Expanded(
-                                  flex: 3,
-                                  child: WelcomeCardModule(),
-                                ),
-                                Gap(20),
-                                Expanded(
-                                  flex: 5,
-                                  child: BalanceCardModule(),
-                                ),
-                              ],
-                            );
-                          }
-                        },
-                      ),
-                      const Gap(20),
-                      LayoutBuilder(
-                        builder: (context, constraints) {
-                          final isSmallScreen = constraints.maxWidth < 600;
-
-                          if (isSmallScreen) {
-                            return Column(
-                              children: [
-                                ProgressCardModule(
-                                  title: 'MONEY OUT LAST 30 DAYS',
-                                  dataSource: progressDataOut,
-                                ),
-                                const Gap(20),
-                                ProgressCardModule(
-                                  title: 'MONEY IN LAST 30 DAYS',
-                                  dataSource: progressDataIn,
-                                ),
-                              ],
-                            );
-                          } else {
-                            return Row(
-                              children: [
-                                Expanded(
-                                  child: ProgressCardModule(
-                                    title: 'MONEY OUT LAST 30 DAYS',
-                                    dataSource: progressDataOut,
-                                  ),
-                                ),
-                                const Gap(20),
-                                Expanded(
-                                  child: ProgressCardModule(
-                                    title: 'MONEY IN LAST 30 DAYS',
-                                    dataSource: progressDataIn,
-                                  ),
-                                ),
-                              ],
-                            );
-                          }
-                        },
-                      ),
-                    ],
+                  Gap(20),
+                  Expanded(
+                    flex: 5,
+                    child: BalanceCardModule(),
                   ),
-                ),
-              ),
-            ),
-          ),
+                ],
+              );
+            }
+          },
         ),
-      );
-    });
+        const Gap(20),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final isSmallScreen = constraints.maxWidth < 600;
+
+            if (isSmallScreen) {
+              return Column(
+                children: [
+                  ProgressCardModule(
+                    title: 'MONEY OUT LAST 30 DAYS',
+                    dataSource: progressDataOut,
+                  ),
+                  const Gap(20),
+                  ProgressCardModule(
+                    title: 'MONEY IN LAST 30 DAYS',
+                    dataSource: progressDataIn,
+                  ),
+                ],
+              );
+            } else {
+              return Row(
+                children: [
+                  Expanded(
+                    child: ProgressCardModule(
+                      title: 'MONEY OUT LAST 30 DAYS',
+                      dataSource: progressDataOut,
+                    ),
+                  ),
+                  const Gap(20),
+                  Expanded(
+                    child: ProgressCardModule(
+                      title: 'MONEY IN LAST 30 DAYS',
+                      dataSource: progressDataIn,
+                    ),
+                  ),
+                ],
+              );
+            }
+          },
+        ),
+      ]),
+    );
   }
 }

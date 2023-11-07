@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:venus/components/sidebar/sidebar.dart';
+import 'package:venus/components/navbar/navbar.dart';
 import 'package:venus/screens/home.dart';
+import 'package:venus/utils/platform.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (kIsAndroid) {
+    await FlutterDisplayMode.setHighRefreshRate();
+  }
   runApp(const Venus());
 }
 
@@ -47,7 +53,10 @@ ThemeData createTheme(Brightness brightness) {
         ),
       ),
     ),
-    iconTheme: const IconThemeData(size: 16),
+    iconTheme: IconThemeData(
+      size: 16,
+      color: colorScheme.onSurface,
+    ),
   );
 
   return theme.copyWith(
@@ -78,7 +87,7 @@ class VenusState extends State<Venus> {
     final selectedIndex = useState(0);
 
     return MaterialApp(
-      home: Sidebar(
+      home: Navbar(
         selectedIndex: selectedIndex.value,
         onSelectedIndexChanged: (index) {
           selectedIndex.value = index;
