@@ -157,6 +157,7 @@ class Navbar extends HookWidget {
                           floating: true,
                           pinned: true,
                           snap: true,
+                          primary: true,
                           surfaceTintColor: Colors.transparent,
                           bottom: !isSmallerScreen
                               ? null
