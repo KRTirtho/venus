@@ -1,9 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:venus/components/navbar/navbar.dart';
-import 'package:venus/screens/home.dart';
+import 'package:venus/collection/routes.dart';
+import 'package:venus/services/teller/teller.dart';
 import 'package:venus/utils/platform.dart';
 
 Future<void> main() async {
@@ -11,6 +12,11 @@ Future<void> main() async {
   if (kIsAndroid) {
     await FlutterDisplayMode.setHighRefreshRate();
   }
+
+  if (kIsWeb) {
+    setupTellerWeb();
+  }
+
   runApp(const Venus());
 }
 
@@ -84,16 +90,8 @@ class VenusState extends State<Venus> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedIndex = useState(0);
-
-    return MaterialApp(
-      home: Navbar(
-        selectedIndex: selectedIndex.value,
-        onSelectedIndexChanged: (index) {
-          selectedIndex.value = index;
-        },
-        child: const HomeScreen(),
-      ),
+    return MaterialApp.router(
+      routerConfig: router,
       theme: createTheme(Brightness.light),
       darkTheme: createTheme(Brightness.dark),
       themeMode: themeMode,

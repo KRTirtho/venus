@@ -1,8 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:venus/main.dart';
+import 'package:venus/services/teller/teller.dart';
 
 const moveMoneyItems = [
   (icon: Icon(Ionicons.paper_plane_outline), title: "Pay Someone"),
@@ -104,6 +107,15 @@ class SearchModule extends HookWidget {
                           contentPadding: EdgeInsets.zero,
                           leading: item.icon,
                           title: Text(item.title),
+                          onTap: () {
+                            if (item == moveMoneyItems[1]) {
+                              if (kIsWeb) {
+                                openTellerConnect();
+                              } else {
+                                GoRouter.of(context).push('/teller');
+                              }
+                            }
+                          },
                         ),
                       ),
                   ];

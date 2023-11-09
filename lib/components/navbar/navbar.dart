@@ -148,74 +148,88 @@ class Navbar extends HookWidget {
                   child: ScrollConfiguration(
                     behavior:
                         const ScrollBehavior().copyWith(scrollbars: false),
-                    child: CustomScrollView(
+                    child: NestedScrollView(
                       controller: scrollController,
-                      slivers: [
-                        SliverAppBar(
-                          flexibleSpace: const SafeArea(child: SearchModule()),
-                          expandedHeight: 130,
-                          floating: true,
-                          pinned: true,
-                          snap: true,
-                          primary: true,
-                          surfaceTintColor: Colors.transparent,
-                          bottom: !isSmallerScreen
-                              ? null
-                              : PreferredSize(
-                                  preferredSize:
-                                      const Size.fromHeight(kToolbarHeight + 4),
-                                  child: ColoredBox(
-                                    color: theme.colorScheme.background,
-                                    child: ScrollConfiguration(
-                                      behavior: const ScrollBehavior().copyWith(
-                                        dragDevices: {
-                                          PointerDeviceKind.touch,
-                                          PointerDeviceKind.mouse,
-                                        },
-                                        scrollbars: false,
-                                      ),
-                                      child: SingleChildScrollView(
-                                        controller: bottomBarController,
-                                        scrollDirection: Axis.horizontal,
-                                        child: SalomonBottomBar(
-                                          currentIndex: selectedIndex,
-                                          onTap: (index) {
-                                            controller.selectIndex(index);
-                                            if (previousIndex == null) {
-                                              return;
-                                            }
-
-                                            bottomBarController.animateTo(
-                                              previousIndex > index
-                                                  ? bottomBarController
-                                                      .position.minScrollExtent
-                                                  : bottomBarController
-                                                      .position.maxScrollExtent,
-                                              duration: const Duration(
-                                                  milliseconds: 300),
-                                              curve: Curves.easeInOut,
-                                            );
-                                          },
-                                          items: sidebarTiles.mapIndexed(
-                                            (index, e) {
-                                              return SalomonBottomBarItem(
-                                                icon: Icon(e.icon),
-                                                title: Text(e.title),
-                                                unselectedColor: theme
-                                                    .colorScheme.onBackground,
-                                                selectedColor:
-                                                    theme.colorScheme.primary,
-                                              );
+                      headerSliverBuilder: (context, innerBoxIsScrolled) {
+                        return [
+                          SliverOverlapAbsorber(
+                            handle:
+                                NestedScrollView.sliverOverlapAbsorberHandleFor(
+                              context,
+                            ),
+                            sliver: SliverAppBar(
+                              flexibleSpace:
+                                  const SafeArea(child: SearchModule()),
+                              expandedHeight: 130,
+                              floating: true,
+                              pinned: true,
+                              snap: true,
+                              primary: true,
+                              surfaceTintColor: Colors.transparent,
+                              forceElevated: innerBoxIsScrolled,
+                              bottom: !isSmallerScreen
+                                  ? null
+                                  : PreferredSize(
+                                      preferredSize: const Size.fromHeight(
+                                          kToolbarHeight + 4),
+                                      child: ColoredBox(
+                                        color: theme.colorScheme.background,
+                                        child: ScrollConfiguration(
+                                          behavior:
+                                              const ScrollBehavior().copyWith(
+                                            dragDevices: {
+                                              PointerDeviceKind.touch,
+                                              PointerDeviceKind.mouse,
                                             },
-                                          ).toList(),
+                                            scrollbars: false,
+                                          ),
+                                          child: SingleChildScrollView(
+                                            controller: bottomBarController,
+                                            scrollDirection: Axis.horizontal,
+                                            child: SalomonBottomBar(
+                                              currentIndex: selectedIndex,
+                                              onTap: (index) {
+                                                controller.selectIndex(index);
+                                                if (previousIndex == null) {
+                                                  return;
+                                                }
+
+                                                bottomBarController.animateTo(
+                                                  previousIndex > index
+                                                      ? bottomBarController
+                                                          .position
+                                                          .minScrollExtent
+                                                      : bottomBarController
+                                                          .position
+                                                          .maxScrollExtent,
+                                                  duration: const Duration(
+                                                      milliseconds: 300),
+                                                  curve: Curves.easeInOut,
+                                                );
+                                              },
+                                              items: sidebarTiles.mapIndexed(
+                                                (index, e) {
+                                                  return SalomonBottomBarItem(
+                                                    icon: Icon(e.icon),
+                                                    title: Text(e.title),
+                                                    unselectedColor: theme
+                                                        .colorScheme
+                                                        .onBackground,
+                                                    selectedColor: theme
+                                                        .colorScheme.primary,
+                                                  );
+                                                },
+                                              ).toList(),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                        ),
-                        child,
-                      ],
+                            ),
+                          ),
+                        ];
+                      },
+                      body: child,
                     ),
                   ),
                 ),

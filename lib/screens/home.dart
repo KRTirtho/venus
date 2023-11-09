@@ -28,9 +28,9 @@ class HomeScreen extends HookWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  SliverList build(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildListDelegate([
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
         const Gap(15),
         LayoutBuilder(
           builder: (context, constraints) {
@@ -101,7 +101,7 @@ class HomeScreen extends HookWidget {
             }
           },
         ),
-      ]),
+      ],
     );
   }
 }
