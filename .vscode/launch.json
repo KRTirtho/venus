@@ -7,19 +7,22 @@
     {
       "name": "venus",
       "request": "launch",
-      "type": "dart"
+      "type": "dart",
+      "cwd": "${workspaceFolder}/apps/venus",
     },
     {
       "name": "venus (profile mode)",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "profile"
+      "flutterMode": "profile",
+      "cwd": "${workspaceFolder}/apps/venus",
     },
     {
       "name": "venus (release mode)",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "release"
+      "flutterMode": "release",
+      "cwd": "${workspaceFolder}/apps/venus",
     }
   ]
 }
