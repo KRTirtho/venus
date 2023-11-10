@@ -7,11 +7,8 @@ class TellerScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: const BackButton(),
-      ),
-      body: const TellerWebViewLogin(),
+    return const Scaffold(
+      body: SafeArea(child: TellerWebViewLogin()),
     );
   }
 }

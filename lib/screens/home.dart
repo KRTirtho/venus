@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:random_name_generator/random_name_generator.dart';
+import 'package:venus/collection/models/teller_data.dart';
+import 'package:venus/composition/teller_stream.dart';
 import 'package:venus/modules/home/balance_card_module.dart';
 import 'package:venus/modules/home/progress_card_module.dart';
 import 'package:venus/modules/home/welcome_card_module.dart';
@@ -29,6 +32,28 @@ class HomeScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    useEffect(() {
+      StreamSubscription<TellerData>? subscription;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        subscription = tellerSuccessStream.listen((tellerData) {
+          if (!context.mounted) return;
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Bank ${tellerData.enrollment.institution.name} connected!',
+              ),
+            ),
+          );
+        });
+      });
+
+      return () {
+        subscription?.cancel();
+      };
+    }, []);
+
     return ListView(
       children: [
         const Gap(15),

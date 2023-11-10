@@ -8,6 +8,7 @@ import 'package:venus/main.dart';
 import 'package:venus/services/teller/teller.dart';
 
 const moveMoneyItems = [
+  (icon: Icon(Ionicons.log_in_outline), title: "Connect Your Bank"),
   (icon: Icon(Ionicons.paper_plane_outline), title: "Pay Someone"),
   (icon: Icon(Ionicons.cash_outline), title: "Add or Receive Funds"),
   (
@@ -108,7 +109,7 @@ class SearchModule extends HookWidget {
                           leading: item.icon,
                           title: Text(item.title),
                           onTap: () {
-                            if (item == moveMoneyItems[1]) {
+                            if (item == moveMoneyItems.first) {
                               if (kIsWeb) {
                                 openTellerConnect();
                               } else {
