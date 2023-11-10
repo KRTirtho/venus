@@ -4,6 +4,20 @@
   "sourceRoot": "apps/venus/src",
   "projectType": "application",
   "targets": {
+    "bootstrap": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "flutter pub get",
+        "cwd": "apps/venus"
+      }
+    },
+    "build_runner": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "dart run build_runner build --delete-conflicting-outputs",
+        "cwd": "apps/venus"
+      }
+    },
     "analyze": {
       "executor": "nx:run-commands",
       "options": {
